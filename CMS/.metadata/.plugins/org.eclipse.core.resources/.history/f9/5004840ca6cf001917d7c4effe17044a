@@ -1,0 +1,70 @@
+package com.hcl.cms;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+
+public class SubjectCrud {
+	public String insertSubjects(Subjects subject) {
+		SessionFactory sf=HibernateUtil.getConnection();
+		Session s=sf.openSession();
+		Transaction t=s.beginTransaction();
+		s.save(subject);
+		t.commit();
+		return "Record Inserted...";
+		
+	}
+	public String insertFeedBack(FeedBack feedback) {
+		SessionFactory sf=HibernateUtil.getConnection();
+		Session s=sf.openSession();
+		Transaction t=s.beginTransaction();
+		s.save(feedback);
+		t.commit();
+		return "FeedBack Inserted...";
+	}
+	public List<String> showInstructor() {
+		SessionFactory sf=HibernateUtil.getConnection();
+		Session s=sf.openSession();
+		Query q=s.createQuery("select distinct instructor from Subjects");
+		List lstSubjects=q.list();
+		List<String>inslist=new ArrayList<String>();
+		for (Object object : lstSubjects) {
+			inslist.add((String)object);
+		}
+		return inslist;
+	}
+	
+public String feedBackId() {
+	SessionFactory sf = HibernateUtil.getConnection();
+	Session s = sf.openSession();
+	Query q = s.createQuery("select max(fid) from FeedBack");
+	
+	String fid = "C001";
+	List<String> lst = q.list();
+     
+	if (lst.get(0)==null) {
+	fid="C001";
+	} else {
+		fid =lst.get(0).toString();
+	int id = Integer.parseInt(fid.substring(1));
+	id++;
+	String formatted = String.format("%03d", id);
+	fid = "C"+formatted;
+	}
+	return fid;
+	}
+public List<String> showSubject(String instructor){
+	SessionFactory sf=HibernateUtil.getConnection();
+	Session s=sf.openSession();
+	
+	Query q=s.createQuery("select distinct subject from Subjects where instructor='" +instructor+ " '");
+	List<String> lstSubjects=q.list();
+	System.out.println(lstSubjects);
+	return lstSubjects;
+}
+}

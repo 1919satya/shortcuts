@@ -1,0 +1,28 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form method="post" action="ConfirmFeedback.jsp">
+<%
+	String instr = (String)session.getAttribute("instr");
+    String fid=(String)session.getAttribute("fid");
+    String studentName=(String)session.getAttribute("studentName");
+    String subject = (String)request.getParameter("subject");
+    String feed=(String)request.getParameter("feed");		
+%>
+FeedBack Id: <% out.println(fid); %>
+<%out.println(instr);%><br/>
+<%out.println(studentName);%><br/>
+<%out.println(subject);%><br/>
+<%out.println(feed);%><br/>
+
+<input type="submit" value="Confirm Submit" />
+</form>
+
+</body>
+</html>

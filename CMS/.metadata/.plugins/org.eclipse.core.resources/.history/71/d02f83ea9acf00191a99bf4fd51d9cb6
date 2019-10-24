@@ -1,0 +1,31 @@
+<%@page import="com.hcl.cms.SubjectCrud"%>
+<%@page import="com.hcl.cms.FeedBack"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<form method="post" action="ConfirmFeedback.jsp">
+<%
+	
+    String fid=(String)session.getAttribute("fid");
+    String instr = (String)session.getAttribute("instr");
+    String studentName=(String)session.getAttribute("studentName");
+    String subject =request.getParameter("subject");
+    String feed=request.getParameter("feed");		
+%>
+FeedBack Id: <input type="text" value="<% out.println(fid); %> " name="fid" readonly="readonly"/>
+Instructor : <input type="text" value=<%out.println(instr);%> " name="instr" readonly="readonly" /><br/>
+studentName : <input type="text" value=<%out.println(studentName);%> " name="studentName" readonly="readonly"/><br/>
+subject: <input type="text" value=<%out.println(subject);%> " name="subject" readonly="readonly" /><br/>
+feed :<input type="text" value=<%out.println(feed);%> " name="feed" readonly="readonly"/><br/>
+
+<input type="submit" value="Confirm Submit" />
+</form>
+
+</body>
+</html>

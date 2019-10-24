@@ -1,0 +1,99 @@
+<%@page import="com.hcl.cms.FeedBack"%>
+<%@page import="java.util.List"%>
+<%@page import="com.hcl.cms.SubjectCrud"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<script>
+function change(){
+   
+     document.frmFeedback.submit();
+
+  }
+</script>
+	<% String res = SubjectCrud.feedBackId(); %>
+	<% List<String>lstSubjects=SubjectCrud.showInstructor(); %>
+	<form  method="get" name="frmFeedback" action="FeedBack.jsp">
+		FeedBack Id :
+		<input type="text" name="fid" value=<%=res %> />
+		
+		Student Name :
+		<input type="text" name="studentName" /><br/><br/>
+		
+		Instructor :
+		<select name="instructor" onchange="change()" >
+		<option value="please select" >please select</option>
+		<% 
+		 for(String ins :lstSubjects){
+			 out.println("<option value=" + ins +">" + ins +"</option>");
+		 }
+		%>
+		</select> <br/><br/>
+		<%
+		String instr=request.getParameter("instructor");
+		out.println(instr);
+		session.setAttribute("instr", instr);
+		String fid=request.getParameter("fid");
+		out.println(fid);
+		session.setAttribute("fid",fid);
+		String studentName=request.getParameter("studentName");
+		out.println(studentName);
+		session.setAttribute("studentName",studentName);
+		%>
+		
+	</form>
+Feed back is...<br/><br/>
+<form method="get" action="ConfirmFeedback.jsp">
+ Select Subject :
+ 
+	 <select name="subject">
+		 <%
+		 List<String>lst1=SubjectCrud.showSubject(instr);
+		 for(String obj1 : lst1){
+			 %>
+			<option><%=obj1 %></option>
+			 <% 
+		 }
+		
+		 %>
+	</select>
+
+
+
+
+Feedback:
+<input type="radio" name="feed" value="Excellent" >Excellent</input>
+<input type="radio" name="feed" value="Good" >Good</input>
+<input type="radio" name="feed" value="Average" >Average</input>
+<input type="radio" name="feed" value="ok" >Ok</input> <br/><br/>
+
+<input type="submit" value="confirm" />
+confirm Feedback</a>
+</form>
+<%  
+      if(request.getParameter("fid") !=null &&
+          request.getParameter("studentName") !=null &&
+          request.getParameter("subject") !=null
+        
+    		  ) {
+    	  FeedBack f=new FeedBack();
+    	  f.setFid(request.getParameter("fid"));
+    	  f.setInstructor(request.getParameter("instructor"));
+    	  f.setStudentName(request.getParameter("studentName"));
+    	  f.setSubject(request.getParameter("subject"));
+    	  f.setFbvalue(request.getParameter("fbvalue"));
+    	 SubjectCrud crud=new SubjectCrud();
+    	  out.println(crud.insertFeedBack(f));
+    	  
+      }
+     
+     
+     %>
+</body>
+</html>
